@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "704694147154",
+    "project_id": "pillsend-d22b9",
+    "storage_bucket": "pillsend-d22b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704694147154:android:5bd74c8b22bca6fceb278b",
+        "android_client_info": {
+          "package_name": "com.codigocorrecto.pillsend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704694147154-sor906pn3crfcnmrhrio8s5me4mlnvp1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codigocorrecto.pillsend",
+            "certificate_hash": "9beeace11e16b0a3fe6f9b33f7dc691dc95f94f0"
+          }
+        },
+        {
+          "client_id": "704694147154-mj2rs37j1ijllstdhp9o1qkfi8t8rune.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdEqeSddOmdwb4TSQGqZ2eY2FUhZUaT7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704694147154-05ns551f34pj76vhhc6nur5au5oh9eni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
