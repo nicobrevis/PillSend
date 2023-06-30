@@ -1,4 +1,4 @@
-# pillsend
+# PillSend
 
 Un nuevo proyecto de Flutter.
 
