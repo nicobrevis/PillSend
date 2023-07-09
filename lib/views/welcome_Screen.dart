@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pillsend/utils/exports.dart';
 import 'package:pillsend/screens/doctor/paciente_list_doctor.dart';
-import 'package:pillsend/screens/paciente/doctor_list_paciente.dart';
-
 import '../screens/firestore.dart';
+import '_app/xd.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -128,7 +127,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const DoctorList(),
+          builder: (context) => const BottomNavigationBarExampleApp(),
         ),
       );
     }

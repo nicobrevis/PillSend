@@ -44,6 +44,9 @@ dependencies:
   date_count_down: ^2.1.0
   flutter_web_browser: ^0.17.1
   flutter_local_notifications: ^14.1.1
+  table_calendar: ^3.0.9
+  flutter_localizations:
+    sdk: flutter
 
 
 dev_dependencies:
