@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'EntregaMedicamentos.dart';
+import 'EntregaMedicamentosScreen.dart';
+import 'ProfileScreen.dart';
 
 class BottomNavigationBarExampleApp extends StatelessWidget {
   const BottomNavigationBarExampleApp({Key? key}) : super(key: key);
@@ -27,27 +27,14 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const EntregaMedicamentosScreen()),
+          MaterialPageRoute(
+              builder: (context) => const EntregaMedicamentosScreen()),
         );
         break;
       case 1:
-        // Acción al presionar el botón 2
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Botón 2'),
-              content: const Text('Acción del botón 2'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cerrar'),
-                ),
-              ],
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ProfileScreen()),
         );
         break;
       case 2:

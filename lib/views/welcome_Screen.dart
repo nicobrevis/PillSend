@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pillsend/utils/exports.dart';
 import 'package:pillsend/screens/doctor/paciente_list_doctor.dart';
 import '../screens/firestore.dart';
-import '_app/xd.dart';
+import '_app/menu.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

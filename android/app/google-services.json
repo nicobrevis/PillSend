@@ -37,6 +37,13 @@
             {
               "client_id": "704694147154-05ns551f34pj76vhhc6nur5au5oh9eni.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "704694147154-52b785cu9t8k7f0g66v115hnq87mhlf0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codigocorrecto.pillsend"
+              }
             }
           ]
         }

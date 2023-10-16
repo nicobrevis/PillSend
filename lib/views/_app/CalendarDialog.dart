@@ -2,34 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDialog extends StatefulWidget {
-  const CalendarDialog({
-    Key? key,
-    required this.selectedDate,
-    required this.selectedTime,
-    required this.onDateSelected,
-    required this.onTimeSelected,
-    required this.onCancel,
-    required this.onReserve,
-  }) : super(key: key);
+  final Function(DateTime, TimeOfDay?) onReserve;
 
-  final DateTime selectedDate;
-  final TimeOfDay selectedTime;
-  final ValueChanged<DateTime> onDateSelected;
-  final ValueChanged<TimeOfDay> onTimeSelected;
-  final VoidCallback onCancel;
-  final VoidCallback onReserve;
+  CalendarDialog({required this.onReserve});
 
   @override
   _CalendarDialogState createState() => _CalendarDialogState();
 }
 
 class _CalendarDialogState extends State<CalendarDialog> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay? _selectedTime;
 
   void _onCalendarFormatChanged(CalendarFormat format) {
-    setState(() {
-      _calendarFormat = format;
-    });
+    setState(() {});
+  }
+
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime ?? TimeOfDay.now(),
+    );
+    if (pickedTime != null) {
+      setState(() {
+        _selectedTime = pickedTime;
+      });
+    }
   }
 
   @override
@@ -46,15 +44,32 @@ class _CalendarDialogState extends State<CalendarDialog> {
                 locale: 'es_ES',
                 firstDay: DateTime.now(),
                 lastDay: DateTime(2030),
-                focusedDay: widget.selectedDate,
-                calendarFormat: _calendarFormat,
+                focusedDay: _selectedDate,
+                calendarFormat: CalendarFormat.month,
                 onFormatChanged: _onCalendarFormatChanged,
+                startingDayOfWeek: StartingDayOfWeek.monday,
                 onDaySelected: (date, focusedDate) {
-                  widget.onDateSelected(date);
+                  setState(() {
+                    _selectedDate = date;
+                  });
                 },
                 selectedDayPredicate: (date) {
-                  return isSameDay(widget.selectedDate, date);
+                  return isSameDay(_selectedDate, date);
                 },
+                calendarStyle: const CalendarStyle(
+                  markerDecoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  todayDecoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.circle,
+                  ),
+                  selectedDecoration: BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                  ),
+                ),
                 calendarBuilders: CalendarBuilders(
                   selectedBuilder: (context, date, events) {
                     return Container(
@@ -89,18 +104,12 @@ class _CalendarDialogState extends State<CalendarDialog> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => widget.onTimeSelected(widget.selectedTime),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                ),
+                onPressed: () => _selectTime(context),
                 child: const Text('Seleccionar hora'),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Fecha seleccionada: ${widget.selectedDate.toString()}',
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Hora seleccionada: ${widget.selectedTime.format(context)}',
-                style: const TextStyle(fontSize: 16),
               ),
             ],
           ),
@@ -108,11 +117,26 @@ class _CalendarDialogState extends State<CalendarDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: widget.onCancel,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           child: const Text('Cancelar'),
         ),
         ElevatedButton(
-          onPressed: widget.onReserve,
+          onPressed: () {
+            // Lógica de reserva de fecha y hora
+            print('Fecha seleccionada: ${_selectedDate.toString()}');
+            if (_selectedTime != null) {
+              print('Hora seleccionada: ${_selectedTime!.format(context)}');
+            }
+            // Llama a la función de devolución de llamada para pasar datos a la pantalla principal
+            widget.onReserve(_selectedDate, _selectedTime);
+            Navigator.of(context).pop();
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.green,
+            onPrimary: Colors.white,
+          ),
           child: const Text('Reservar'),
         ),
       ],

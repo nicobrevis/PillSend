@@ -1,0 +1,147 @@
+[33mcommit 08cb204630536bb12fb85cc55fd0c2a04f217a06[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: nicobrevis <80666522+nicobrevis@users.noreply.github.com>
+Date:   Sun Jul 9 01:32:43 2023 -0400
+
+    xd
+
+[1mdiff --git a/lib/views/_app/EntregaMedicamentos.dart b/lib/views/_app/EntregaMedicamentos.dart[m
+[1mnew file mode 100644[m
+[1mindex 0000000..aaae672[m
+[1m--- /dev/null[m
+[1m+++ b/lib/views/_app/EntregaMedicamentos.dart[m
+[36m@@ -0,0 +1,251 @@[m
+[32m+[m[32mimport 'package:flutter/material.dart';[m
+[32m+[m[32mimport 'package:flutter_localizations/flutter_localizations.dart';[m
+[32m+[m[32mimport 'package:table_calendar/table_calendar.dart';[m
+[32m+[m
+[32m+[m[32mclass EntregaMedicamentosScreen extends StatefulWidget {[m
+[32m+[m[32m  const EntregaMedicamentosScreen({Key? key}) : super(key: key);[m
+[32m+[m
+[32m+[m[32m  @override[m
+[32m+[m[32m  _EntregaMedicamentosScreenState createState() =>[m
+[32m+[m[32m      _EntregaMedicamentosScreenState();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mclass _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {[m
+[32m+[m[32m  DateTime _selectedDate = DateTime.now();[m
+[32m+[m[32m  TimeOfDay? _selectedTime;[m
+[32m+[m
+[32m+[m[32m  void _onCalendarFormatChanged(CalendarFormat format) {[m
+[32m+[m[32m    setState(() {});[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  void _selectTime(BuildContext context) async {[m
+[32m+[m[32m    final TimeOfDay? pickedTime = await showTimePicker([m
+[32m+[m[32m      context: context,[m
+[32m+[m[32m      initialTime: _selectedTime ?? TimeOfDay.now(),[m
+[32m+[m[32m    );[m
+[32m+[m[32m    if (pickedTime != null) {[m
+[32m+[m[32m      setState(() {[m
+[32m+[m[32m        _selectedTime = pickedTime;[m
+[32m+[m[32m      });[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  void _showCalendarDialog(BuildContext context) {[m
+[32m+[m[32m    showDialog([m
+[32m+[m[32m      context: context,[m
+[32m+[m[32m      builder: (BuildContext context) {[m
+[32m+[m[32m        return StatefulBuilder([m
+[32m+[m[32m          builder: (context, setState) {[m
+[32m+[m[32m            return AlertDialog([m
+[32m+[m[32m              title: const Text('Seleccionar fecha y hora'),[m
+[32m+[m[32m              content: SingleChildScrollView([m
+[32m+[m[32m                child: SizedBox([m
+[32m+[m[32m                  width: 300,[m
+[32m+[m[32m                  height: 550,[m
+[32m+[m[32m                  child: Column([m
+[32m+[m[32m                    children: [[m
+[32m+[m[32m                      TableCalendar([m
+[32m+[m[32m                        locale: 'es_ES',[m
+[32m+[m[32m                        firstDay: DateTime.now(),[m
+[32m+[m[32m                        lastDay: DateTime(2030),[m
+[32m+[m[32m                        focusedDay: _selectedDate,[m
+[32m+[m[32m                        calendarFormat: CalendarFormat.month,[m
+[32m+[m[32m                        onFormatChanged: _onCalendarFormatChanged,[m
+[32m+[m[32m                        startingDayOfWeek: StartingDayOfWeek.monday,[m
+[32m+[m[32m                        onDaySelected: (date, focusedDate) {[m
+[32m+[m[32m                          setState(() {[m
+[32m+[m[32m                            _selectedDate = date;[m
+[32m+[m[32m                          });[m
+[32m+[m[32m                        },[m
+[32m+[m[32m                        selectedDayPredicate: (date) {[m
+[32m+[m[32m                          return isSameDay(_selectedDate, date);[m
+[32m+[m[32m                        },[m
+[32m+[m[32m                        calendarStyle: const CalendarStyle([m
+[32m+[m[32m                          markerDecoration: BoxDecoration([m
+[32m+[m[32m                            color: Colors.red,[m
+[32m+[m[32m                            shape: BoxShape.circle,[m
+[32m+[m[32m                          ),[m
+[32m+[m[32m                          todayDecoration: BoxDecoration([m
+[32m+[m[32m                            color: Colors.blue,[m
+[32m+[m[32m                            shape: BoxShape.circle,[m
+[32m+[m[32m                          ),[m
+[32m+[m[32m                          selectedDecoration: BoxDecoration([m
+[32m+[m[32m                            color: Colors.green,[m
+[32m+[m[32m                            shape: BoxShape.circle,[m
+[32m+[m[32m                          ),[m
+[32m+[m[32m                        ),[m
+[32m+[m[32m                        calendarBuilders: CalendarBuilders([m
+[32m+[m[32m                          selectedBuilder: (context, date, events) {[m
+[32m+[m[32m                            return Container([m
+[32m+[m[32m                              margin: const EdgeInsets.all(4),[m
+[32m+[m[32m                              alignment: Alignment.center,[m
+[32m+[m[32m                              decoration: BoxDecoration([m
+[32m+[m[32m                                color: Theme.of(context).primaryColor,[m
+[32m+[m[32m                                shape: BoxShape.circle,[m
+[32m+[m[32m                              ),[m
+[32m+[m[32m                              child: Text([m
+[32m+[m[32m                                date.day.toString(),[m
+[32m+[m[32m                                style: const TextStyle([m
+[32m+[m[32m                                  color: Colors.white,[m
+[32m+[m[32m                                  fontWeight: FontWeight.bold,[m
+[32m+[m[32m                                ),[m
+[32m+[m[32m                              ),[m
+[32m+[m[32m                            );[m
+[32m+[m[32m                          },[m
+[32m+[m[32m                        ),[m
+[32m+[m[32m                        headerStyle: const HeaderStyle([m
+[32m+[m[32m                          formatButtonVisible: false,[m
+[32m+[m[32m                        ),[m
+[32m+[m[32m                        daysOfWeekStyle: const DaysOfWeekStyle([m
+[32m+[m[32m                          weekdayStyle: TextStyle([m
+[32m+[m[32m                            fontWeight: FontWeight.bold,[m
+[32m+[m[32m                          ),[m
+[32m+[m[32m                          weekendStyle: TextStyle([m
+[32m+[m[32m                            fontWeight: FontWeight.bold,[m
+[32m+[m[32m                            color: Colors.red,[m
+[32m+[m[32m                          ),[m
+[32m+[m[32m                        ),[m
+[32m+[m[32m                      ),[m
+[32m+[m[32m                      const SizedBox(height: 16),[m
+[32m+[m[32m                      ElevatedButton([m
+[32m+[m[32m                        style: ElevatedButton.styleFrom([m
+[32m+[m[32m                          primary: Colors.blue,[m
+[32m+[m[32m                          onPrimary: Colors.white,[m
+[32m+[m[32m                        ),[m
+[32m+[m[32m                        onPressed: () => _selectTime(context),[m
+[32m+[m[32m                        child: const Text('Seleccionar hora'),[m
+[32m+[m[32m                      ),[m
+[32m+[m[32m                    ],[m
+[32m+[m[32m                  ),[m
+[32m+[m[32m                ),[m
+[32m+[m[32m              ),[m
+[32m+[m[32m              actions: <Widget>[[m
+[32m+[m[32m                TextButton([m
+[32m+[m[32m                  onPressed: () {[m
+[32m+[m[32m                    Navigator.of(context).pop();[m
+[32m+[m[32m                  },[m
+[32m+[m[32m                  child: const Text('Cancelar'),[m
+[32m+[m[32m                ),[m
+[32m+[m[32m                ElevatedButton([m
+[32m+[m[32m                  onPressed: () {[m
+[32m+[m[32m                    // Lógica de reserva de fecha y hora[m
+[32m+[m[32m                    print('Fecha seleccionada: ${_selectedDate.toString()}');[m
+[32m+[m[32m                    if (_selectedTime != null) {[m
+[32m+[m[32m                      print([m
+[32m+[m[32m                          'Hora seleccionada: ${_selectedTime!.format(context)}'
