@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'EntregaAlimentosScreen.dart';
 import 'EntregaMedicamentosScreen.dart';
+import 'HealthControlScreen.dart';
 import 'ProfileScreen.dart';
+import 'SettingsScreen.dart';
 
 class BottomNavigationBarExampleApp extends StatelessWidget {
   const BottomNavigationBarExampleApp({Key? key}) : super(key: key);
@@ -38,63 +41,21 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         );
         break;
       case 2:
-        // Acción al presionar el botón 3
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Botón 3'),
-              content: const Text('Acción del botón 3'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cerrar'),
-                ),
-              ],
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const EntregaAlimentosScreen()),
         );
         break;
       case 3:
-        // Acción al presionar el botón 4
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Botón 4'),
-              content: const Text('Acción del botón 4'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cerrar'),
-                ),
-              ],
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HealthControlScreen()),
         );
         break;
       case 4:
-        // Acción al presionar el botón 5
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Botón 5'),
-              content: const Text('Acción del botón 5'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cerrar'),
-                ),
-              ],
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SettingsScreen()),
         );
         break;
       case 5:
