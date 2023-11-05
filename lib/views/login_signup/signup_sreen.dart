@@ -1,7 +1,10 @@
+import 'package:pillsend/screens/firestore.dart';
 import 'package:pillsend/utils/exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -17,14 +20,28 @@ class _SignupScreenState extends State<SignupScreen> {
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-      );
+
+      if (user != null) {
+        // Guardar user.uid en SharedPreferences
+        await prefs.setString('userUid', user.uid);
+
+        // Asociar datos a usuario después de registrar con éxito
+        await asociarDatosAUsuario(user.uid,
+          email,
+          // ... otros datos que quieras asociar al usuario ...
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -42,6 +59,7 @@ class _SignupScreenState extends State<SignupScreen> {
     }
     return user;
   }
+
 
   signInWithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();

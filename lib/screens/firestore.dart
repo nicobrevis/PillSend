@@ -1,6 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 FirebaseFirestore database = FirebaseFirestore.instance;
+FirebaseAuth auth = FirebaseAuth.instance;
+
+Future<void> asociarDatosAUsuario(String nombre, String email) async {
+  User? user = auth.currentUser;
+  if (user != null) {
+    String uid = user.uid;
+    try {
+      // Crear un documento en la colección 'usuarios' con el UID como identificador
+      await database.collection('usuarios').doc(uid).set({
+        'nombre': nombre,
+        'email': email,
+        // Puedes agregar más campos según tus necesidades
+      });
+      print('Datos asociados al usuario con UID: $uid');
+    } catch (e) {
+      print('Error al asociar datos al usuario: $e');
+    }
+  } else {
+    print('Usuario no autenticado');
+  }
+}
 
 Future<List<Map<String, dynamic>>> getMedicamento() async {
   List<Map<String, dynamic>> medicamento = [];
@@ -14,6 +36,8 @@ Future<List<Map<String, dynamic>>> getMedicamento() async {
 
   return medicamento;
 }
+
+
 
 Future<void> addMedicamento(String name, String dosis, String frecuencia,
     String duracion, String inicio, String fin) async {

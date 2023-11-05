@@ -1,6 +1,7 @@
 import 'package:pillsend/utils/exports.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -8,6 +9,11 @@ class LoginScreen extends StatefulWidget {
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
+}
+
+Future<void> saveUserUidToSharedPreferences(String userUid) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('userUid', userUid);
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -21,13 +27,25 @@ class _LoginScreenState extends State<LoginScreen> {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = userCredential.user;
+
+      if (user != null) {
+        // Guardar el UID del usuario en SharedPreferences
+        await saveUserUidToSharedPreferences(user.uid);
+
+        // Navegar a la pantalla de bienvenida u otra pantalla después de iniciar sesión
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       }
     }
     return user;
-  }
+}
+
 
   signInWithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();

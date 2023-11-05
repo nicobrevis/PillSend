@@ -28,14 +28,30 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
 
   // Esta función se llama cuando se presiona el botón 'Reservar' en CalendarDialog
   void _handleReservation(DateTime selectedDate, TimeOfDay? selectedTime) {
-    setState(() {
-      _selectedDate = selectedDate;
-      _selectedTime = selectedTime;
-      fechaReserva =
-          'Fecha de reserva de medicamentos: ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year} ${_selectedTime!.hour}:${_selectedTime!.minute}';
-      _saveReservationDate(); // Guarda la fecha de reserva
-    });
-  }
+  setState(() {
+    _selectedDate = selectedDate;
+    _selectedTime = selectedTime;
+    fechaReserva =
+        'Fecha de reserva de medicamentos: ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year} ${_selectedTime!.hour}:${_selectedTime!.minute}';
+    _saveReservationDate(); // Guarda la fecha de reserva
+
+    // Muestra la alerta (SnackBar) después de reservar la hora
+    ScaffoldMessenger.of(context).showSnackBar(
+      const 
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(Icons.check, color: Colors.green), // Icono de check
+            SizedBox(width: 8), // Espaciado entre el icono y el texto
+            Text('Hora reservada con éxito'),
+          ],
+        ),
+        backgroundColor: Colors.black87,
+      ),
+    );
+  });
+}
+
 
   // Guardar la fecha de reserva en SharedPreferences
   _saveReservationDate() async {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+bool _isButtonDisabled = true;
+
 class CalendarDialog extends StatefulWidget {
   final Function(DateTime, TimeOfDay?) onReserve;
 
@@ -26,8 +28,15 @@ class _CalendarDialogState extends State<CalendarDialog> {
     if (pickedTime != null) {
       setState(() {
         _selectedTime = pickedTime;
+        _checkButtonState();
       });
     }
+  }
+
+  void _checkButtonState() {
+    setState(() {
+      _isButtonDisabled = _selectedDate == null || _selectedTime == null;
+    });
   }
 
   @override
@@ -51,6 +60,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
                 onDaySelected: (date, focusedDate) {
                   setState(() {
                     _selectedDate = date;
+                    _checkButtonState();
                   });
                 },
                 selectedDayPredicate: (date) {
@@ -123,16 +133,19 @@ class _CalendarDialogState extends State<CalendarDialog> {
           child: const Text('Cancelar'),
         ),
         ElevatedButton(
-          onPressed: () {
-            // Lógica de reserva de fecha y hora
-            print('Fecha seleccionada: ${_selectedDate.toString()}');
-            if (_selectedTime != null) {
-              print('Hora seleccionada: ${_selectedTime!.format(context)}');
-            }
-            // Llama a la función de devolución de llamada para pasar datos a la pantalla principal
-            widget.onReserve(_selectedDate, _selectedTime);
-            Navigator.of(context).pop();
-          },
+          onPressed: _isButtonDisabled
+              ? null
+              : () {
+                  // Lógica de reserva de fecha y hora
+                  print('Fecha seleccionada: ${_selectedDate.toString()}');
+                  if (_selectedTime != null) {
+                    print(
+                        'Hora seleccionada: ${_selectedTime!.format(context)}');
+                  }
+                  // Llama a la función de devolución de llamada para pasar datos a la pantalla principal
+                  widget.onReserve(_selectedDate, _selectedTime);
+                  Navigator.of(context).pop();
+                },
           style: ElevatedButton.styleFrom(
             primary: Colors.green,
             onPrimary: Colors.white,

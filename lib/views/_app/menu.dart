@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'EntregaAlimentosScreen.dart';
 import 'EntregaMedicamentosScreen.dart';
 import 'HealthControlScreen.dart';
 import 'ProfileScreen.dart';
 import 'SettingsScreen.dart';
+
+readFromSharedPreferences(String key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? value = prefs.getString(key);
+  print(value);
+  
+}
+
+
+
+
+
 
 class BottomNavigationBarExampleApp extends StatelessWidget {
   const BottomNavigationBarExampleApp({Key? key}) : super(key: key);
@@ -24,7 +37,17 @@ class MainMenuScreen extends StatefulWidget {
   _MainMenuScreenState createState() => _MainMenuScreenState();
 }
 
+
+
 class _MainMenuScreenState extends State<MainMenuScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    readFromSharedPreferences('userUid');
+    print('User UID not found');
+  }
+
   void _onButtonPressed(BuildContext context, int index) {
     switch (index) {
       case 0:
@@ -96,13 +119,13 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildMenuButton(context, Icons.medication, Colors.blue, 0),
+            _buildMenuButton(context, Icons.medication, Colors.blue, 0,'Retiro de medicamentos'),
             _buildMenuButton(
-                context, Icons.health_and_safety_rounded, Colors.green, 1),
-            _buildMenuButton(context, Icons.apple, Colors.orange, 2),
-            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3),
-            _buildMenuButton(context, Icons.settings, Colors.red, 4),
-            _buildMenuButton(context, Icons.info, Colors.teal, 5),
+                context, Icons.health_and_safety_rounded, Colors.green, 1,'Ficha médica'),
+            _buildMenuButton(context, Icons.apple, Colors.orange, 2,'Retiro de alimentos'),
+            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3,'Próximos controles'),
+            _buildMenuButton(context, Icons.settings, Colors.red, 4,'configuración'),
+            _buildMenuButton(context, Icons.info, Colors.teal, 5,'Información'),
           ],
         ),
       ),
@@ -110,27 +133,44 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 
   Widget _buildMenuButton(
-      BuildContext context, IconData icon, Color color, int index) {
-    return ElevatedButton(
-      onPressed: () {
+  BuildContext context,
+  IconData icon,
+  Color color,
+  int index,
+  String texto,
+) {
+  return Material(
+    elevation: 10, // Altura de la sombra
+    borderRadius: BorderRadius.circular(10), // Borde redondeado
+    child: InkWell(
+      onTap: () {
         _onButtonPressed(context, index);
       },
-      style: ElevatedButton.styleFrom(
-        primary: color,
-        shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        width: 120,
+        height: 120,
+        decoration: BoxDecoration(
+          color: color,
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.zero,
-        minimumSize: const Size(120, 120),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Icon(
-          icon,
-          size: 100,
-          color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 100, color: Colors.white),
+            Text(
+              texto,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20, // Tamaño de la letra
+                fontWeight: FontWeight.bold, // Peso de la letra (opcional)
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
