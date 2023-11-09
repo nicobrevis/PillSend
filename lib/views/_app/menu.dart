@@ -122,8 +122,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             _buildMenuButton(context, Icons.medication, Colors.blue, 0,'Retiro de medicamentos'),
             _buildMenuButton(
                 context, Icons.health_and_safety_rounded, Colors.green, 1,'Ficha médica'),
-            _buildMenuButton(context, Icons.apple, Colors.orange, 2,'Retiro de alimentos'),
-            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3,'Próximos controles'),
+            _buildMenuButton(context, Icons.apple, Colors.orange, 2,'Visualizar alarma'),
+            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3,'Medicamentos recetados'),
             _buildMenuButton(context, Icons.settings, Colors.red, 4,'configuración'),
             _buildMenuButton(context, Icons.info, Colors.teal, 5,'Información'),
           ],
@@ -160,6 +160,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
             Icon(icon, size: 100, color: Colors.white),
             Text(
               texto,
+              textAlign: TextAlign.center, // Centra el texto
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20, // Tamaño de la letra
@@ -172,5 +173,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     ),
   );
 }
+
 
 }

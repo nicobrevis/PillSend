@@ -17,6 +17,7 @@ class _SignupScreenState extends State<SignupScreen> {
   static Future<User?> registerUsingEmailPassword(
       {required String email,
       required String password,
+      required String rut,
       required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
@@ -32,8 +33,8 @@ class _SignupScreenState extends State<SignupScreen> {
         await prefs.setString('userUid', user.uid);
 
         // Asociar datos a usuario después de registrar con éxito
-        await asociarDatosAUsuario(user.uid,
-          email,
+        await asociarDatosAUsuario(email,
+          rut
           // ... otros datos que quieras asociar al usuario ...
         );
 
@@ -211,11 +212,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           if (_passwordController.text ==
                                   _passwordControllerConfirm.text &&
                               _emailController.text.isNotEmpty &&
-                              _passwordController.text.isNotEmpty && 
-                              _rutController.text.isNotEmpty) {
+                              _passwordController.text.isNotEmpty) {
                             registerUsingEmailPassword(
                                 email: _emailController.text,
                                 password: _passwordController.text,
+                                rut: _rutController.text,
                                 context: context);
                           } else if (_emailController.text.isEmpty) {
                             const snackBar = SnackBar(
