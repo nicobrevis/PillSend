@@ -211,7 +211,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           if (_passwordController.text ==
                                   _passwordControllerConfirm.text &&
                               _emailController.text.isNotEmpty &&
-                              _passwordController.text.isNotEmpty) {
+                              _passwordController.text.isNotEmpty && 
+                              _rutController.text.isNotEmpty) {
                             registerUsingEmailPassword(
                                 email: _emailController.text,
                                 password: _passwordController.text,
