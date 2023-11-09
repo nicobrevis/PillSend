@@ -4,15 +4,43 @@ import 'package:firebase_auth/firebase_auth.dart';
 FirebaseFirestore database = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 
-Future<void> asociarDatosAUsuario(String nombre, String email) async {
+/*Future<String?> buscarUsuarioPorNombre(String nombre) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('usuarios')
+          .where('nombre', isEqualTo: nombre)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Si encontramos un usuario con el nombre dado, retornamos su email
+        return querySnapshot.docs[0]['email'];
+      } else {
+        // Si no se encontró ningún usuario con el nombre dado
+        return null;
+      }
+    } else {
+      // Si el usuario no está autenticado
+      return null;
+    }
+  } catch (e) {
+    // Manejar errores si los hay
+    print('Error al buscar usuario: $e');
+    return null;
+  }
+}*/
+
+Future<void> asociarDatosAUsuario( String email, String rut) async {
   User? user = auth.currentUser;
   if (user != null) {
     String uid = user.uid;
     try {
       // Crear un documento en la colección 'usuarios' con el UID como identificador
       await database.collection('usuarios').doc(uid).set({
-        'nombre': nombre,
+        
         'email': email,
+        'rut':rut
         // Puedes agregar más campos según tus necesidades
       });
       print('Datos asociados al usuario con UID: $uid');
