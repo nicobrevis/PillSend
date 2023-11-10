@@ -55,7 +55,7 @@ Future<void> asociarDatosAUsuario( String email, String rut) async {
 Future<List<Map<String, dynamic>>> getMedicamento() async {
   List<Map<String, dynamic>> medicamento = [];
   CollectionReference collectionReferenceMedicamento =
-      database.collection('Medicamento');
+      database.collection('rutRegistro');
   QuerySnapshot queryMedicamento = await collectionReferenceMedicamento.get();
 
   for (var documento in queryMedicamento.docs) {
