@@ -4,6 +4,8 @@ import 'CalendarDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'menu.dart';
+
 class EntregaMedicamentosScreen extends StatefulWidget {
   const EntregaMedicamentosScreen({Key? key}) : super(key: key);
 
@@ -74,82 +76,92 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PillSend'),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Entrega de Medicamentos',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Card(
-                elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+    return WillPopScope(
+      onWillPop: () async {
+        // Bloquear el retroceso si el usuario ha iniciado sesión
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Menu()),
+        );
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('PillSend'),
+          centerTitle: true,
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Entrega de Medicamentos',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        'Fecha de entrega: 01/01/2023',
-                        style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text(
+                          'Fecha de entrega: 01/01/2023',
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                    const Divider(),
-                    const Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Text(
-                        'Fecha de próxima entrega: 02/01/2023',
-                        style: TextStyle(fontSize: 16),
+                      const Divider(),
+                      const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text(
+                          'Fecha de próxima entrega: 02/01/2023',
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
-                    ),
-                    const Divider(),
-                    // Fecha de reserva
-                    if (fechaReserva.isNotEmpty)
+                      const Divider(),
+                      // Fecha de reserva
+                      if (fechaReserva.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            fechaReserva,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      const Divider(),
                       Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Text(
-                          fechaReserva,
-                          style: const TextStyle(fontSize: 16),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            onPrimary: Colors.white,
+                          ),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CalendarDialog(
+                                onReserve: _handleReservation,
+                              ),
+                            );
+                          },
+                          child: const Text('Reservar hora'),
                         ),
                       ),
-                    const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          onPrimary: Colors.white,
-                        ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => CalendarDialog(
-                              onReserve: _handleReservation,
-                            ),
-                          );
-                        },
-                        child: const Text('Reservar hora'),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

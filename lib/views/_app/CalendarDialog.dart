@@ -165,6 +165,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
             onPrimary: Colors.white,
           ),
           child: const Text('Reservar'),
+          
         ),
       ],
     );

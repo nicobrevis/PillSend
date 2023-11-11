@@ -79,7 +79,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const BottomNavigationBarExampleApp(),
+                                    const Menu(),
                               ),
                             );
                           },

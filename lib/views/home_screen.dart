@@ -4,14 +4,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pillsend/views/welcome_Screen_google.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        // Bloquear el retroceso si el usuario ha iniciado sesión
+        return false;
+      },
+      child: const MaterialApp(
+        home: HomeScreen_aux(),
+        debugShowCheckedModeBanner: false,
+      ),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreen_aux extends StatefulWidget {
+  const HomeScreen_aux({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreen_auxState createState() => _HomeScreen_auxState();
+}
+
+class _HomeScreen_auxState extends State<HomeScreen_aux> {
   signInWithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

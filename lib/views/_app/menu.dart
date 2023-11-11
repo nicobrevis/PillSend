@@ -10,22 +10,22 @@ readFromSharedPreferences(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? value = prefs.getString(key);
   print(value);
-  
 }
 
-
-
-
-
-
-class BottomNavigationBarExampleApp extends StatelessWidget {
-  const BottomNavigationBarExampleApp({Key? key}) : super(key: key);
+class Menu extends StatelessWidget {
+  const Menu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MainMenuScreen(),
-      debugShowCheckedModeBanner: false,
+    return WillPopScope(
+      onWillPop: () async {
+        // Bloquear el retroceso si el usuario ha iniciado sesión
+        return false;
+      },
+      child: const MaterialApp(
+        home: MainMenuScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
@@ -37,10 +37,7 @@ class MainMenuScreen extends StatefulWidget {
   _MainMenuScreenState createState() => _MainMenuScreenState();
 }
 
-
-
 class _MainMenuScreenState extends State<MainMenuScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -66,7 +63,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const EntregaAlimentosScreen()),
+          MaterialPageRoute(
+              builder: (context) => const EntregaAlimentosScreen()),
         );
         break;
       case 3:
@@ -119,13 +117,18 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildMenuButton(context, Icons.medication, Colors.blue, 0,'Retiro de medicamentos'),
+            _buildMenuButton(context, Icons.medication, Colors.blue, 0,
+                'Retiro de medicamentos'),
+            _buildMenuButton(context, Icons.health_and_safety_rounded,
+                Colors.green, 1, 'Ficha médica'),
             _buildMenuButton(
-                context, Icons.health_and_safety_rounded, Colors.green, 1,'Ficha médica'),
-            _buildMenuButton(context, Icons.apple, Colors.orange, 2,'Visualizar alarma'),
-            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3,'Medicamentos recetados'),
-            _buildMenuButton(context, Icons.settings, Colors.red, 4,'configuración'),
-            _buildMenuButton(context, Icons.info, Colors.teal, 5,'Información'),
+                context, Icons.apple, Colors.orange, 2, 'Visualizar alarma'),
+            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3,
+                'Medicamentos recetados'),
+            _buildMenuButton(
+                context, Icons.settings, Colors.red, 4, 'configuración'),
+            _buildMenuButton(
+                context, Icons.info, Colors.teal, 5, 'Información'),
           ],
         ),
       ),
@@ -133,46 +136,44 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 
   Widget _buildMenuButton(
-  BuildContext context,
-  IconData icon,
-  Color color,
-  int index,
-  String texto,
-) {
-  return Material(
-    elevation: 10, // Altura de la sombra
-    borderRadius: BorderRadius.circular(10), // Borde redondeado
-    child: InkWell(
-      onTap: () {
-        _onButtonPressed(context, index);
-      },
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: 120,
-        height: 120,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 100, color: Colors.white),
-            Text(
-              texto,
-              textAlign: TextAlign.center, // Centra el texto
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20, // Tamaño de la letra
-                fontWeight: FontWeight.bold, // Peso de la letra (opcional)
+    BuildContext context,
+    IconData icon,
+    Color color,
+    int index,
+    String texto,
+  ) {
+    return Material(
+      elevation: 10, // Altura de la sombra
+      borderRadius: BorderRadius.circular(10), // Borde redondeado
+      child: InkWell(
+        onTap: () {
+          _onButtonPressed(context, index);
+        },
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 100, color: Colors.white),
+              Text(
+                texto,
+                textAlign: TextAlign.center, // Centra el texto
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20, // Tamaño de la letra
+                  fontWeight: FontWeight.bold, // Peso de la letra (opcional)
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
-
+    );
+  }
 }

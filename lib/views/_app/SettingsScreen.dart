@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../home_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -10,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('Perfil'),
+            title: Text('Cerrar sesion'),
             leading: Icon(Icons.person),
             onTap: () {
               // Acción para abrir la configuración de perfil
@@ -19,14 +23,30 @@ class SettingsScreen extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Configuración de Perfil'),
-                    content: Text('Personaliza tu perfil aquí.'),
+                    title: Text('Cerrar sesión'),
+                    content: Text('¿Estas seguro que deseas cerrar sesión?'),
                     actions: <Widget>[
                       TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
+                        onPressed: () async {
+                          await GoogleSignIn().signOut();
+                          FirebaseAuth.instance.signOut();
+                          Navigator.pop(
+                            context,
+                          );
                         },
-                        child: Text('Cerrar'),
+                        child: Text('Seguir aquí'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          await GoogleSignIn().signOut();
+                          FirebaseAuth.instance.signOut();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()),
+                          );
+                        },
+                        child: Text('Cerrar sesión'),
                       ),
                     ],
                   );
