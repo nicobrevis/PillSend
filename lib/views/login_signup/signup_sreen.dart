@@ -7,6 +7,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../welcome_Screen.dart';
+import '../welcome_Screen_google.dart';
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -42,12 +45,17 @@ class _SignupScreenState extends State<SignupScreen> {
           // Si existe, asociar datos a usuario
           final userUid = await prefs.getString('userUid') ?? '';
           await asociarDatosAUsuario(email, rut, userUid);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const WelcomeScreenNoRut()),
+          );
+          print('XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
         }
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-        );
       }
     } on FirebaseAuthException catch (e) {
       // Manejo de excepciones
@@ -145,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
         await FirebaseAuth.instance.signInWithCredential(credential);
     print(userCredential.user?.displayName);
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+      MaterialPageRoute(builder: (context) => const WelcomeScreen_google()),
     );
   }
 
@@ -272,7 +280,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       child: TextField(
                         controller: _rutController,
-                        obscureText: true,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Rut',

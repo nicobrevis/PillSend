@@ -6,14 +6,14 @@ import 'package:pillsend/screens/doctor/paciente_list_doctor.dart';
 import '../screens/firestore.dart';
 import '_app/menu.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+class WelcomeScreenNoRut extends StatefulWidget {
+  const WelcomeScreenNoRut({Key? key}) : super(key: key);
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreenNoRut> {
   String? inputText;
   TextEditingController _rutController = TextEditingController();
 
@@ -55,41 +55,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 const SizedBox(height: 8),
                 customText(
-                  txt: "¡Presiona ingresar para poder ver tu ficha medica!",
+                  txt:
+                      "¡Ahora debes esperar a que tu centro\nde salud verifique tu rut!",
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 14,
                   ),
                 ),
                 const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: 16),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.blue),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const BottomNavigationBarExampleApp(),
-                              ),
-                            );
-                          },
-                          child: const Text('Ingresar'),
-                        ),
-                        const SizedBox(width: 16),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

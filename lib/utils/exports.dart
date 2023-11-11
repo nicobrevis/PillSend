@@ -4,7 +4,7 @@ export 'package:flutter/material.dart';
 export 'package:pillsend/views/home_screen.dart';
 export 'package:pillsend/views/login_signup/login_screen.dart';
 export 'package:pillsend/views/login_signup/signup_sreen.dart';
-export 'package:pillsend/views/welcome_Screen.dart';
+export 'package:pillsend/views/welcome_ScreenNoRut.dart';
 
 //Controllers
 

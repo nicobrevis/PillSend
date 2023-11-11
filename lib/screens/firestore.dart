@@ -101,7 +101,19 @@ Future<void> addPaciente(String nombre, String edad) async {
 
 Future<List<Map<String, dynamic>>> getAdminRut() async {
   List<Map<String, dynamic>> rutList = [];
-  CollectionReference collectionReferenceRut = database.collection('admin');
+  CollectionReference collectionReferenceRut = database.collection('rutRegistro');
+  QuerySnapshot queryRut = await collectionReferenceRut.get();
+
+  for (var documento in queryRut.docs) {
+    rutList.add(documento.data() as Map<String, dynamic>);
+  }
+
+  return rutList;
+}
+
+Future<List<Map<String, dynamic>>> getCorreo() async {
+  List<Map<String, dynamic>> rutList = [];
+  CollectionReference collectionReferenceRut = database.collection('rutRegistro');
   QuerySnapshot queryRut = await collectionReferenceRut.get();
 
   for (var documento in queryRut.docs) {

@@ -50,7 +50,8 @@ class ProfileScreen extends StatelessWidget {
             return FutureBuilder(
               future: _getUserData(userUid!),
               builder: (context, userDataSnapshot) {
-                if (userDataSnapshot.connectionState == ConnectionState.waiting) {
+                if (userDataSnapshot.connectionState ==
+                    ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (userDataSnapshot.hasError) {
                   return Text('Error: ${userDataSnapshot.error}');
@@ -105,16 +106,21 @@ class ProfileScreen extends StatelessWidget {
           InfoTile(
               icon: Icons.cake,
               text: 'Fecha de Nacimiento: ${userData['fechaNacimiento']}'),
-          InfoTile(icon: Icons.local_hospital, text: 'Previsión: ${userData['prevision']}'),
+          InfoTile(
+              icon: Icons.local_hospital,
+              text: 'Previsión: ${userData['prevision']}'),
           InfoTile(icon: Icons.star, text: 'Edad: ${userData['edad']} años'),
-          InfoTile(icon: Icons.opacity, text: 'Grupo Sanguíneo: ${userData['grupoSanguineo']}'),
+          InfoTile(
+              icon: Icons.opacity,
+              text: 'Grupo Sanguíneo: ${userData['grupoSanguineo']}'),
           InfoTile(
               icon: Icons.local_pharmacy,
-              text: 'Enfermedad Crónica: ${userData['EnfermedadCronica']}'),
+              text: 'Enfermedad Crónica: ${userData['enfermedadCronica']}'),
           InfoTile(
               icon: Icons.local_hospital,
               text: 'Establecimiento de Salud: ${userData['establecimiento']}'),
-          InfoTile(icon: Icons.location_on, text: 'Comuna: ${userData['comuna']}'),
+          InfoTile(
+              icon: Icons.location_on, text: 'Comuna: ${userData['comuna']}'),
         ],
       ),
     );

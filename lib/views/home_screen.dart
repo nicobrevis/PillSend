@@ -1,6 +1,7 @@
 import 'package:pillsend/utils/exports.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pillsend/views/welcome_Screen_google.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         await FirebaseAuth.instance.signInWithCredential(credential);
     print(userCredential.user?.displayName);
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+        MaterialPageRoute(builder: (context) => const WelcomeScreen_google()));
   }
 
   @override
