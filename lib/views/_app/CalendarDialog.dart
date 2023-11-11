@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool _isButtonDisabled = true;
 
 class CalendarDialog extends StatefulWidget {
-  final Function(DateTime, TimeOfDay?) onReserve;
+  final Function(Timestamp) onReserve;
 
   CalendarDialog({required this.onReserve});
 
@@ -135,16 +137,28 @@ class _CalendarDialogState extends State<CalendarDialog> {
         ElevatedButton(
           onPressed: _isButtonDisabled
               ? null
-              : () {
-                  // Lógica de reserva de fecha y hora
-                  print('Fecha seleccionada: ${_selectedDate.toString()}');
-                  if (_selectedTime != null) {
-                    print(
-                        'Hora seleccionada: ${_selectedTime!.format(context)}');
+              : () async {
+                  if (_selectedDate != null && _selectedTime != null) {
+                    // Obtén el UID del usuario actualmente autenticado
+                    String userUid = FirebaseAuth.instance.currentUser!.uid;
+
+                    // Crea una referencia al documento en la colección "reservas" con el UID del usuario
+                    DocumentReference reservationRef =
+                        FirebaseFirestore.instance.collection('reservas').doc(userUid);
+
+                    // Guarda la fecha y hora en el documento como un objeto Timestamp
+                    Timestamp dateTimeStamp = Timestamp.fromDate(
+                        DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day,
+                            _selectedTime!.hour, _selectedTime!.minute));
+
+                    await reservationRef.set({
+                      'fecha': dateTimeStamp,
+                    });
+
+                    // Llama a la función de devolución de llamada para pasar datos a la pantalla principal
+                    widget.onReserve(dateTimeStamp);
+                    Navigator.of(context).pop();
                   }
-                  // Llama a la función de devolución de llamada para pasar datos a la pantalla principal
-                  widget.onReserve(_selectedDate, _selectedTime);
-                  Navigator.of(context).pop();
                 },
           style: ElevatedButton.styleFrom(
             primary: Colors.green,

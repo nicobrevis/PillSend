@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'CalendarDialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EntregaMedicamentosScreen extends StatefulWidget {
   const EntregaMedicamentosScreen({Key? key}) : super(key: key);
@@ -27,18 +28,18 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
   }
 
   // Esta función se llama cuando se presiona el botón 'Reservar' en CalendarDialog
-  void _handleReservation(DateTime selectedDate, TimeOfDay? selectedTime) {
-  setState(() {
-    _selectedDate = selectedDate;
-    _selectedTime = selectedTime;
-    fechaReserva =
-        'Fecha de reserva de medicamentos: ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year} ${_selectedTime!.hour}:${_selectedTime!.minute}';
-    _saveReservationDate(); // Guarda la fecha de reserva
+  void _handleReservation(Timestamp dateTimeStamp) async {
+    // Actualiza la fecha y hora en el estado y en Firestore
+    setState(() {
+      _selectedDate = dateTimeStamp.toDate();
+      _selectedTime = TimeOfDay.fromDateTime(_selectedDate);
+      fechaReserva =
+          'Fecha de reserva de medicamentos: ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year} ${_selectedTime!.hour}:${_selectedTime!.minute}';
+    });
 
     // Muestra la alerta (SnackBar) después de reservar la hora
     ScaffoldMessenger.of(context).showSnackBar(
-      const 
-      SnackBar(
+      const SnackBar(
         content: Row(
           children: [
             Icon(Icons.check, color: Colors.green), // Icono de check
@@ -49,24 +50,25 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
         backgroundColor: Colors.black87,
       ),
     );
-  });
-}
-
-
-  // Guardar la fecha de reserva en SharedPreferences
-  _saveReservationDate() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('reservationDate', fechaReserva);
   }
 
-  // Cargar la fecha de reserva desde SharedPreferences
+  // Cargar la fecha de reserva desde Firestore
   _loadReservationDate() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedReservationDate = prefs.getString('reservationDate');
-    if (savedReservationDate != null) {
-      setState(() {
-        fechaReserva = savedReservationDate;
-      });
+    // Obtén el UID del usuario actualmente autenticado
+    String userUid = FirebaseAuth.instance.currentUser!.uid;
+
+    // Crea una referencia al documento en la colección "reservas" con el UID del usuario
+    DocumentReference reservationRef =
+        FirebaseFirestore.instance.collection('reservas').doc(userUid);
+
+    // Obtiene los datos del documento
+    DocumentSnapshot reservationSnapshot = await reservationRef.get();
+
+    // Verifica si el documento existe
+    if (reservationSnapshot.exists) {
+      Timestamp dateTimeStamp =
+          (reservationSnapshot.data() as dynamic)['fecha'];
+      _handleReservation(dateTimeStamp);
     }
   }
 
@@ -135,8 +137,9 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder: (context) =>
-                                CalendarDialog(onReserve: _handleReservation),
+                            builder: (context) => CalendarDialog(
+                              onReserve: _handleReservation,
+                            ),
                           );
                         },
                         child: const Text('Reservar hora'),

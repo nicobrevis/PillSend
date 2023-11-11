@@ -109,7 +109,7 @@ class _EntregaAlimentosScreenState extends State<EntregaAlimentosScreen> {
                         ),
                       ),
                     const Divider(),
-                    Padding(
+                    /*Padding(
                       padding: const EdgeInsets.all(16),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -125,7 +125,7 @@ class _EntregaAlimentosScreenState extends State<EntregaAlimentosScreen> {
                         },
                         child: const Text('Reservar hora'),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
