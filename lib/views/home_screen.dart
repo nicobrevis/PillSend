@@ -31,19 +31,21 @@ class HomeScreen_aux extends StatefulWidget {
 
 class _HomeScreen_auxState extends State<HomeScreen_aux> {
   signInWithGoogle() async {
-    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+  AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
-    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+  UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
 
-    AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+  Navigator.of(context).pushReplacement(
+    MaterialPageRoute(
+      builder: (context) => WelcomeScreen_google(userCredential: userCredential),
+    ),
+  );
+}
 
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    print(userCredential.user?.displayName);
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const WelcomeScreen_google()));
-  }
 
   @override
   Widget build(BuildContext context) {

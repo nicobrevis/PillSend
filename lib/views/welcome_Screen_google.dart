@@ -9,8 +9,9 @@ import '../screens/firestore.dart';
 import '_app/menu.dart';
 
 class WelcomeScreen_google extends StatefulWidget {
-  const WelcomeScreen_google({Key? key}) : super(key: key);
-
+  const WelcomeScreen_google({Key? key, required this.userCredential})
+      : super(key: key);
+  final UserCredential userCredential;
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -21,6 +22,7 @@ class _WelcomeScreenState extends State<WelcomeScreen_google> {
 
   @override
   Widget build(BuildContext context) {
+    UserCredential userCredential = widget.userCredential;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -94,6 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen_google> {
                             password: '123456',
                             rut: _rutController.text,
                             context: context,
+                            userCredential: userCredential,
                           );
                         },
                         child: const Text('Verificar'),
@@ -128,23 +131,21 @@ class _WelcomeScreenState extends State<WelcomeScreen_google> {
     required String password,
     required String rut,
     required BuildContext context,
+    required UserCredential userCredential,
   }) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
+    print('1');
+    print('2');
     User? user;
+    print('3');
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('4');
 
-    UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    print('5');
     user = userCredential.user;
-
     if (user != null) {
       await prefs.setString('userUid', user.uid);
-
       // Verificar si el 'rut' existe en la colección 'rutRegistro'
       bool rutExists = await checkIfRutExists(rut);
-
       if (rutExists) {
         // Si existe, asociar datos a usuario
         final userUid = await prefs.getString('userUid') ?? '';

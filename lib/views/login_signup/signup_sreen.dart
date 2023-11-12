@@ -141,19 +141,18 @@ class _SignupScreenState extends State<SignupScreen> {
 
   signInWithGoogle() async {
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
     AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(credential);
-    print(userCredential.user?.displayName);
+
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const WelcomeScreen_google()),
+      MaterialPageRoute(
+        builder: (context) =>
+            WelcomeScreen_google(userCredential: userCredential),
+      ),
     );
   }
 
