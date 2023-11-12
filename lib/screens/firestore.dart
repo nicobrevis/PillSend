@@ -30,6 +30,49 @@ FirebaseAuth auth = FirebaseAuth.instance;
     return null;
   }
 }*/
+Future<List<Map<String, dynamic>>> fetchDentalHistory() async {
+    // Obtener el UID del usuario actualmente autenticado
+    String userUid = FirebaseAuth.instance.currentUser!.uid;
+
+    // Referencia al documento del usuario en la colección "usuarios"
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('usuarios').doc(userUid);
+
+    // Obtener la colección "controlAsma" del documento del usuario
+    CollectionReference controlDentalRef = userRef.collection('controlDental');
+
+    // Obtener todos los documentos de la colección "controlAsma"
+    QuerySnapshot controlDentalSnapshot = await controlDentalRef.get();
+
+    // Mapear los documentos a una lista de mapas
+    List<Map<String, dynamic>> DentalHistory = controlDentalSnapshot.docs
+        .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+
+    return DentalHistory;
+  }
+
+Future<List<Map<String, dynamic>>> fetchAsmaHistory() async {
+    // Obtener el UID del usuario actualmente autenticado
+    String userUid = FirebaseAuth.instance.currentUser!.uid;
+
+    // Referencia al documento del usuario en la colección "usuarios"
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection('usuarios').doc(userUid);
+
+    // Obtener la colección "controlAsma" del documento del usuario
+    CollectionReference controlAsmaRef = userRef.collection('controlAsma');
+
+    // Obtener todos los documentos de la colección "controlAsma"
+    QuerySnapshot controlAsmaSnapshot = await controlAsmaRef.get();
+
+    // Mapear los documentos a una lista de mapas
+    List<Map<String, dynamic>> asmaHistory = controlAsmaSnapshot.docs
+        .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>)
+        .toList();
+
+    return asmaHistory;
+  }
 
 Future<void> asociarDatosAUsuario( String email, String rut) async {
   User? user = auth.currentUser;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:pillsend/views/_app/AsmaHistoryScreen.dart';
+import 'package:pillsend/views/_app/DentalHistoryScreen.dart';
 
 class HealthControlScreen extends StatelessWidget {
   @override
@@ -12,11 +13,24 @@ class HealthControlScreen extends StatelessWidget {
         children: <Widget>[
           buildSectionTitle('Controles Dentales'),
           buildControlItem('Próximo control dental', '12 de agosto, 2023'),
-          buildControlItem('Historial dental', 'Ver historial dental'),
+          buildControlItem2('Historial dental', 'Ver historial dental', () {
+            // Navegar a la página de historial de asma al hacer clic en el ítem
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DentalHistoryScreen()),
+            );
+          }),
+
 
           buildSectionTitle('Controles de Asma'),
           buildControlItem('Próximo control de asma', '25 de septiembre, 2023'),
-          buildControlItem('Historial de asma', 'Ver historial de asma'),
+          buildControlItem2('Historial de asma', 'Ver historial de asma', () {
+            // Navegar a la página de historial de asma al hacer clic en el ítem
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AsmaHistoryScreen()),
+            );
+          }),
         ],
       ),
     );
@@ -36,7 +50,15 @@ class HealthControlScreen extends StatelessWidget {
     );
   }
 
-  Widget buildControlItem(String title, String subtitle) {
+  Widget buildControlItem2(String title, String subtitle, VoidCallback? onTap) {
+    return ListTile(
+      title: Text(title),
+      subtitle: Text(subtitle),
+      onTap: onTap,
+    );
+  }
+}
+Widget buildControlItem(String title, String subtitle) {
     return ListTile(
       title: Text(title),
       subtitle: Text(subtitle),
@@ -46,4 +68,5 @@ class HealthControlScreen extends StatelessWidget {
       },
     );
   }
-}
+
+
