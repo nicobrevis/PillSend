@@ -164,7 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
     TextEditingController _rutController = TextEditingController();
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(centerTitle: true, title: const Text('PillSend')),
+        appBar: AppBar(centerTitle: true, title: const Text('PillSend'),backgroundColor: Color(0xFF3F87A5)),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 13),

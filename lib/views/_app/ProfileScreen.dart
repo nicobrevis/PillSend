@@ -10,22 +10,17 @@ class ProfileScreen extends StatelessWidget {
 
   Future<Map<String, dynamic>?> _getUserData(String userUid) async {
     try {
-      // Obtén una instancia de Firestore
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      // Realiza una consulta para obtener los datos del usuario
       DocumentSnapshot userSnapshot =
           await firestore.collection('usuarios').doc(userUid).get();
 
       if (userSnapshot.exists) {
-        // El documento del usuario existe, devuelve sus datos
         return userSnapshot.data() as Map<String, dynamic>;
       } else {
-        // El documento del usuario no existe
         return null;
       }
     } catch (e) {
-      // Maneja los errores según sea necesario
       print('Error al obtener datos de usuario: $e');
       return null;
     }
@@ -36,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil del Paciente'),
-        backgroundColor: Color(0xFF84D4A4), // Color verde pastel
+        backgroundColor: Color(0xFF3F87A5),
       ),
       body: FutureBuilder(
         future: _getUserUid(),
@@ -56,7 +51,6 @@ class ProfileScreen extends StatelessWidget {
                 } else if (userDataSnapshot.hasError) {
                   return Text('Error: ${userDataSnapshot.error}');
                 } else if (userDataSnapshot.hasData) {
-                  // Aquí puedes construir la interfaz de usuario utilizando los datos del usuario
                   Map<String, dynamic>? userData =
                       userDataSnapshot.data as Map<String, dynamic>?;
                   return buildUserProfile(userData);
@@ -73,26 +67,29 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Esta función construye la interfaz de usuario utilizando los datos del usuario
   Widget buildUserProfile(Map<String, dynamic>? userData) {
-    // Comprueba si userData es nulo (usuario no encontrado) y actúa en consecuencia
     if (userData == null) {
       return Text('Usuario no encontrado');
     }
 
-    // Construye la interfaz de usuario utilizando los datos del usuario
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // Foto del perfil (sustituye con la URL de la imagen)
           Container(
             width: 150,
             height: 150,
-            //child: Image.network(userData['imagenPerfil']),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey, // Puedes cambiar el color de fondo según tus preferencias
+            ),
+            child: Icon(
+              Icons.account_circle,
+              size: 100,
+              color: Colors.white,
+            ),
           ),
           SizedBox(height: 20),
-          // Nombre del paciente
           Text(
             userData['nombre'],
             style: TextStyle(
@@ -102,25 +99,38 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          // Información del perfil
           InfoTile(
-              icon: Icons.cake,
-              text: 'Fecha de Nacimiento: ${userData['fechaNacimiento']}'),
+            icon: Icons.cake,
+            text: 'Fecha de Nacimiento: ${userData['fechaNacimiento']}',
+          ),
           InfoTile(
-              icon: Icons.local_hospital,
-              text: 'Previsión: ${userData['prevision']}'),
-          InfoTile(icon: Icons.star, text: 'Edad: ${userData['edad']} años'),
+            icon: Icons.star,
+            text: 'Edad: ${userData['edad']} años',
+          ),
           InfoTile(
-              icon: Icons.opacity,
-              text: 'Grupo Sanguíneo: ${userData['grupoSanguineo']}'),
+            icon: Icons.email,
+            text: 'Correo: ${userData['email']}',
+          ),
           InfoTile(
-              icon: Icons.local_pharmacy,
-              text: 'Enfermedad Crónica: ${userData['enfermedadCronica']}'),
+            icon: Icons.location_city,
+            text: 'Comuna: ${userData['comuna']}',
+          ),
           InfoTile(
-              icon: Icons.local_hospital,
-              text: 'Establecimiento de Salud: ${userData['establecimiento']}'),
+            icon: Icons.local_hospital,
+            text: 'Establecimiento de Salud: ${userData['establecimiento']}',
+          ),
           InfoTile(
-              icon: Icons.location_on, text: 'Comuna: ${userData['comuna']}'),
+            icon: Icons.local_hospital,
+            text: 'Enfermedad Crónica: ${userData['enfermedadCronica']}',
+          ),
+          InfoTile(
+            icon: Icons.opacity,
+            text: 'Grupo Sanguíneo: ${userData['grupoSanguineo']}',
+          ),
+          InfoTile(
+            icon: Icons.local_hospital,
+            text: 'Previsión: ${userData['prevision']}',
+          ),
         ],
       ),
     );
@@ -136,7 +146,7 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Color(0xFF84D4A4)), // Color verde pastel
+      leading: Icon(icon, color: Color(0xFF84D4A4)),
       title: Text(
         text,
         style: TextStyle(

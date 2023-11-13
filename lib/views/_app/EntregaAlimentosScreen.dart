@@ -59,7 +59,7 @@ class _EntregaAlimentosScreenState extends State<EntregaAlimentosScreen> {
       appBar: AppBar(
         title: const Text('PillSend'),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 224, 230, 153),
+        backgroundColor: Color(0xFF3F87A5),
       ),
       body: Container(
         padding: const EdgeInsets.all(16),

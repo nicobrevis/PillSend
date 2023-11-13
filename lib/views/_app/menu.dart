@@ -22,7 +22,7 @@ class Menu extends StatelessWidget {
         // Bloquear el retroceso si el usuario ha iniciado sesión
         return false;
       },
-      child: const MaterialApp(
+      child: MaterialApp(
         home: MainMenuScreen(),
         debugShowCheckedModeBanner: false,
       ),
@@ -50,8 +50,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => const EntregaMedicamentosScreen()),
+          MaterialPageRoute(builder: (context) => const EntregaMedicamentosScreen()),
         );
         break;
       case 1:
@@ -63,8 +62,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => const EntregaAlimentosScreen()),
+          MaterialPageRoute(builder: (context) => const EntregaAlimentosScreen()),
         );
         break;
       case 3:
@@ -80,7 +78,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         );
         break;
       case 5:
-        // Acción al presionar el botón 6
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -108,6 +105,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       appBar: AppBar(
         title: const Text('PillSend'),
         centerTitle: true,
+        backgroundColor: const Color(0xFF3F87A5),
       ),
       body: Center(
         child: GridView.count(
@@ -117,18 +115,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildMenuButton(context, Icons.medication, Colors.blue, 0,
-                'Retiro de medicamentos'),
-            _buildMenuButton(context, Icons.health_and_safety_rounded,
-                Colors.green, 1, 'Ficha médica'),
-            _buildMenuButton(
-                context, Icons.apple, Colors.orange, 2, 'Visualizar alarma'),
-            _buildMenuButton(context, Icons.food_bank, Colors.purple, 3,
-                'Medicamentos recetados'),
-            _buildMenuButton(
-                context, Icons.settings, Colors.red, 4, 'configuración'),
-            _buildMenuButton(
-                context, Icons.info, Colors.teal, 5, 'Información'),
+            _buildMenuButton(context, Icons.medication, const Color(0xFFDBA8A8), 0, 'Medicamentos', 0.8),
+            _buildMenuButton(context, Icons.account_circle, const Color(0xFFEFC678), 1, 'Perfil', 0.8),
+            _buildMenuButton(context, Icons.local_dining, const Color(0xFF7DD094), 2, 'Alimentos', 0.8),
+            _buildMenuButton(context, Icons.calendar_today, const Color(0xFF40CED7), 3, 'Controles', 0.8),
+            _buildMenuButton(context, Icons.settings, const Color(0xFFD1E6E9), 4, 'Configuración', 0.8, doubleWidth: true),
           ],
         ),
       ),
@@ -141,7 +132,9 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     Color color,
     int index,
     String texto,
-  ) {
+    double opacity, {
+    bool doubleWidth = false,
+  }) {
     return Material(
       elevation: 10, // Altura de la sombra
       borderRadius: BorderRadius.circular(10), // Borde redondeado
@@ -151,22 +144,22 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         },
         borderRadius: BorderRadius.circular(10),
         child: Container(
-          width: 120,
+          width: doubleWidth ? double.infinity : 120,
           height: 120,
           decoration: BoxDecoration(
-            color: color,
+            color: color.withOpacity(opacity),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 100, color: Colors.white),
+              Icon(icon, size: 100, color: Colors.white.withOpacity(opacity)),
               Text(
                 texto,
                 textAlign: TextAlign.center, // Centra el texto
                 style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20, // Tamaño de la letra
+                  color: const Color(0xFF3F87A5),
+                  fontSize: 24, // Tamaño de la letra
                   fontWeight: FontWeight.bold, // Peso de la letra (opcional)
                 ),
               ),

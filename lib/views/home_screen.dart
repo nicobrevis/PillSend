@@ -54,6 +54,7 @@ class _HomeScreen_auxState extends State<HomeScreen_aux> {
         appBar: AppBar(
             centerTitle: true,
             title: const Text('PillSend'),
+            backgroundColor: Color(0xFF3F87A5),
             automaticallyImplyLeading: false),
         body: SingleChildScrollView(
           child: Padding(
@@ -86,7 +87,7 @@ class _HomeScreen_auxState extends State<HomeScreen_aux> {
                     const SizedBox(
                       height: 30,
                     ),
-                    Image.asset("images/temporal_logo.png", height: 150),
+                    Image.asset("images/pilllogo.png", height: 150),
                     const SizedBox(
                       height: 40,
                     ),

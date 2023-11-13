@@ -8,24 +8,22 @@ class HealthControlScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Futuros Controles de Salud'),
+        backgroundColor: Color(0xFF3F87A5),
       ),
       body: ListView(
         children: <Widget>[
-          buildSectionTitle('Controles Dentales'),
+          buildSectionWithShadow('Controles Dentales'),
           buildControlItem('Próximo control dental', '12 de agosto, 2023'),
-          buildControlItem2('Historial dental', 'Ver historial dental', () {
-            // Navegar a la página de historial de asma al hacer clic en el ítem
+          buildHistoryButton('Historial dental', 'Ver historial dental', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => DentalHistoryScreen()),
             );
           }),
 
-
-          buildSectionTitle('Controles de Asma'),
+          buildSectionWithShadow('Controles de Asma'),
           buildControlItem('Próximo control de asma', '25 de septiembre, 2023'),
-          buildControlItem2('Historial de asma', 'Ver historial de asma', () {
-            // Navegar a la página de historial de asma al hacer clic en el ítem
+          buildHistoryButton('Historial de asma', 'Ver historial de asma', () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AsmaHistoryScreen()),
@@ -36,15 +34,29 @@ class HealthControlScreen extends StatelessWidget {
     );
   }
 
-  Widget buildSectionTitle(String title) {
+  Widget buildSectionWithShadow(String title) {
     return Container(
-      color: Colors.blue[100],
-      padding: EdgeInsets.all(16),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      margin: EdgeInsets.all(8),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -57,8 +69,42 @@ class HealthControlScreen extends StatelessWidget {
       onTap: onTap,
     );
   }
-}
-Widget buildControlItem(String title, String subtitle) {
+
+  Widget buildHistoryButton(String title, String subtitle, VoidCallback? onTap) {
+    return Container(
+      margin: EdgeInsets.all(8),
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          primary: Colors.indigo, // Color de fondo del botón
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildControlItem(String title, String subtitle) {
     return ListTile(
       title: Text(title),
       subtitle: Text(subtitle),
@@ -68,5 +114,4 @@ Widget buildControlItem(String title, String subtitle) {
       },
     );
   }
-
-
+}

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart'; // Importa la clase DateFormat
+import 'package:intl/intl.dart';
 import 'package:pillsend/screens/firestore.dart';
 
 class DentalHistoryScreen extends StatelessWidget {
   const DentalHistoryScreen({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historial Dental'),
+        backgroundColor: Color(0xFF3F87A5),
       ),
       body: FutureBuilder(
         future: fetchDentalHistory(),
@@ -24,12 +23,12 @@ class DentalHistoryScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text(
               'Error: ${snapshot.error}',
-              style: const TextStyle(fontSize: 20), // Tamaño de fuente más grande
+              style: const TextStyle(fontSize: 20),
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text(
-              'No hay datos en el historial de asma.',
-              style: TextStyle(fontSize: 20), // Tamaño de fuente más grande
+              'No hay datos en el historial dental.',
+              style: TextStyle(fontSize: 20),
             );
           } else {
             return ListView.builder(
@@ -39,22 +38,30 @@ class DentalHistoryScreen extends StatelessWidget {
                 Timestamp fecha = controlDental['fecha'] as Timestamp;
                 String info = controlDental['info'] as String;
 
-                // Formatea la fecha y la hora con los formatos deseados
                 String formattedDate =
                     DateFormat('dd/MM/yyyy').format(fecha.toDate());
                 String formattedTime = DateFormat('HH:mm').format(fecha.toDate());
 
-                return ListTile(
-                  title: Text(
-                    'Fecha: $formattedDate',
-                    style: const TextStyle(fontSize: 20), // Tamaño de fuente más grande
+                return Container(
+                  margin: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  subtitle: Text(
-                    'Hora: $formattedTime\nInformación: $info',
-                    style: const TextStyle(
-                      fontSize: 18, // Tamaño de fuente más grande
-                      fontWeight: FontWeight.bold, // Texto en negrita
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Fecha: $formattedDate',
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Hora: $formattedTime\nInformación: $info',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
                   ),
                 );
               },

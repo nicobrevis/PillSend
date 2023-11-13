@@ -49,8 +49,9 @@ dependencies:
   intl: ^0.18.1
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^2.0.7
+  flutter_svg: ^2.0.9
   animated_text_kit: ^4.2.2
+  gif: ^2.2.0
 
 
 
@@ -84,6 +85,9 @@ flutter:
     - images/img3.png
     - images/img4.png
     - images/Niconiconi.png
+    - images/pilllogo.png
+    - images/success.gif
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

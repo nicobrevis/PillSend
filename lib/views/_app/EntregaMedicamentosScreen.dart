@@ -52,6 +52,9 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
         backgroundColor: Colors.black87,
       ),
     );
+
+    // Retraso antes de mostrar la alerta
+    await Future.delayed(Duration(milliseconds: 500));
   }
 
   // Cargar la fecha de reserva desde Firestore
@@ -89,20 +92,17 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
         appBar: AppBar(
           title: const Text('PillSend'),
           centerTitle: true,
+          backgroundColor: Color(0xFF3F87A5),
         ),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Entrega de Medicamentos',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              // Box con sombra y fondo azul para el título
+              _buildBlueBox('Entrega de Medicamentos', 24, FontWeight.bold),
               const SizedBox(height: 16),
+              // Expanded para ocupar el espacio restante
               Expanded(
                 child: Card(
                   elevation: 2,
@@ -112,32 +112,11 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text(
-                          'Fecha de entrega: 01/01/2023',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const Divider(),
-                      const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text(
-                          'Fecha de próxima entrega: 02/01/2023',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const Divider(),
+                      _buildDateBox('Fecha de entrega: 01/01/2023'),
+                      _buildDateBox('Fecha de próxima entrega: 02/01/2023'),
                       // Fecha de reserva
                       if (fechaReserva.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Text(
-                            fechaReserva,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      const Divider(),
+                        _buildDateBox(fechaReserva),
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: ElevatedButton(
@@ -166,4 +145,55 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
       ),
     );
   }
+
+  // Método para construir las cajas de fecha
+  Widget _buildDateBox(String text) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              text,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+        const Divider(),
+      ],
+    );
+  }
+
+  // Método para construir cajas con sombra y fondo azul
+  Widget _buildBlueBox(String text, double fontSize, FontWeight fontWeight) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
 }
+

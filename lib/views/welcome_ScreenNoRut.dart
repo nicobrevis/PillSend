@@ -24,6 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreenNoRut> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('PillSend'),
+          backgroundColor: Color(0xFF3F87A5),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

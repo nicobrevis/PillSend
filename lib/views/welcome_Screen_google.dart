@@ -28,6 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen_google> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('PillSend'),
+          backgroundColor: Color(0xFF3F87A5),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(

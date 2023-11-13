@@ -10,6 +10,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Configuración'),
+        backgroundColor: Color(0xFF3F87A5),
       ),
       body: ListView(
         children: <Widget>[
