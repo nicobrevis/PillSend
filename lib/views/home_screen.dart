@@ -31,21 +31,21 @@ class HomeScreen_aux extends StatefulWidget {
 
 class _HomeScreen_auxState extends State<HomeScreen_aux> {
   signInWithGoogle() async {
-  GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-  AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
-  UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
-  Navigator.of(context).pushReplacement(
-    MaterialPageRoute(
-      builder: (context) => WelcomeScreen_google(userCredential: userCredential),
-    ),
-  );
-}
-
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>
+            WelcomeScreen_google(userCredential: userCredential),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _HomeScreen_auxState extends State<HomeScreen_aux> {
         appBar: AppBar(
             centerTitle: true,
             title: const Text('PillSend'),
-            backgroundColor: Color(0xFF3F87A5),
+            backgroundColor: Color.fromARGB(255, 30, 162, 236),
             automaticallyImplyLeading: false),
         body: SingleChildScrollView(
           child: Padding(
@@ -85,11 +85,11 @@ class _HomeScreen_auxState extends State<HomeScreen_aux> {
                           fontSize: 14,
                         )),
                     const SizedBox(
-                      height: 30,
+                      height: 10,
                     ),
-                    Image.asset("images/pilllogo.png", height: 150),
+                    Image.asset("images/pilllogo.png", height: 250),
                     const SizedBox(
-                      height: 40,
+                      height: 10,
                     ),
                     customText(
                         txt: "Ingresa con tus redes sociales",

@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil del Paciente'),
-        backgroundColor: Color(0xFF3F87A5),
+        backgroundColor: Color.fromARGB(255, 30, 162, 236),
       ),
       body: FutureBuilder(
         future: _getUserUid(),
@@ -81,7 +81,8 @@ class ProfileScreen extends StatelessWidget {
             height: 150,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.grey, // Puedes cambiar el color de fondo según tus preferencias
+              color: Colors
+                  .grey, // Puedes cambiar el color de fondo según tus preferencias
             ),
             child: Icon(
               Icons.account_circle,

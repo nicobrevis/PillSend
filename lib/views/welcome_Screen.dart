@@ -24,7 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('PillSend'),
-          backgroundColor: Color(0xFF3F87A5),
+          backgroundColor: Color.fromARGB(255, 30, 162, 236),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
@@ -72,15 +72,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         const SizedBox(width: 16),
                         ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.blue),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Color.fromARGB(255, 30, 162, 236),
+                            ),
                           ),
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const Menu(),
+                                builder: (context) => const Menu(),
                               ),
                             );
                           },

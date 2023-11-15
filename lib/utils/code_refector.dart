@@ -27,7 +27,7 @@ Widget SignUpContainer({required String st}) {
     width: double.infinity,
     height: 60,
     decoration: BoxDecoration(
-      color: AppColors.kBlueColor,
+      color: Color.fromARGB(255, 30, 162, 236),
       borderRadius: BorderRadius.circular(12),
     ),
     child: Center(
@@ -52,7 +52,7 @@ TextSpan RichTextSpan({required String one, required String two}) {
         text: two,
         style: TextStyle(
           fontSize: 13,
-          color: AppColors.kBlueColor,
+          color: Color.fromARGB(255, 30, 162, 236),
         )),
   ]);
 }

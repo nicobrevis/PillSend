@@ -11,7 +11,7 @@ class DentalHistoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historial Dental'),
-        backgroundColor: Color(0xFF3F87A5),
+        backgroundColor: Color.fromARGB(255, 30, 162, 236),
       ),
       body: FutureBuilder(
         future: fetchDentalHistory(),
@@ -40,7 +40,8 @@ class DentalHistoryScreen extends StatelessWidget {
 
                 String formattedDate =
                     DateFormat('dd/MM/yyyy').format(fecha.toDate());
-                String formattedTime = DateFormat('HH:mm').format(fecha.toDate());
+                String formattedTime =
+                    DateFormat('HH:mm').format(fecha.toDate());
 
                 return Container(
                   margin: EdgeInsets.all(8),
@@ -54,7 +55,8 @@ class DentalHistoryScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Fecha: $formattedDate',
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8),
                       Text(

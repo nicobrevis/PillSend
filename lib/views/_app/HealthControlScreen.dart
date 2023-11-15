@@ -8,7 +8,7 @@ class HealthControlScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Futuros Controles de Salud'),
-        backgroundColor: Color(0xFF3F87A5),
+        backgroundColor: Color.fromARGB(255, 30, 162, 236),
       ),
       body: ListView(
         children: <Widget>[
@@ -20,7 +20,6 @@ class HealthControlScreen extends StatelessWidget {
               MaterialPageRoute(builder: (context) => DentalHistoryScreen()),
             );
           }),
-
           buildSectionWithShadow('Controles de Asma'),
           buildControlItem('Próximo control de asma', '25 de septiembre, 2023'),
           buildHistoryButton('Historial de asma', 'Ver historial de asma', () {
@@ -70,7 +69,8 @@ class HealthControlScreen extends StatelessWidget {
     );
   }
 
-  Widget buildHistoryButton(String title, String subtitle, VoidCallback? onTap) {
+  Widget buildHistoryButton(
+      String title, String subtitle, VoidCallback? onTap) {
     return Container(
       margin: EdgeInsets.all(8),
       child: ElevatedButton(

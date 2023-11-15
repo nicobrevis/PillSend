@@ -72,8 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController _passwordController = TextEditingController();
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(centerTitle: true, title: const Text('PillSend'), backgroundColor: Color(0xFF3F87A5)),
-  
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('PillSend'),
+          backgroundColor: Color.fromARGB(255, 30, 162, 236),
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 13),
@@ -172,6 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           "¿Has olvidado la contraseña?",
                           style: TextStyle(
                             fontSize: 15,
+                            color: Color.fromARGB(255, 30, 162, 236),
                           ),
                         ),
                       ),

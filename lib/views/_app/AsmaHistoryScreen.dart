@@ -11,7 +11,7 @@ class AsmaHistoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Historial de Asma'),
-        backgroundColor: Color(0xFF3F87A5),
+        backgroundColor: Color.fromARGB(255, 30, 162, 236),
       ),
       body: FutureBuilder(
         future: fetchAsmaHistory(),
@@ -23,7 +23,8 @@ class AsmaHistoryScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text(
               'Error: ${snapshot.error}',
-              style: const TextStyle(fontSize: 20), // Tamaño de fuente más grande
+              style:
+                  const TextStyle(fontSize: 20), // Tamaño de fuente más grande
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text(
@@ -41,7 +42,8 @@ class AsmaHistoryScreen extends StatelessWidget {
                 // Formatea la fecha y la hora con los formatos deseados
                 String formattedDate =
                     DateFormat('dd/MM/yyyy').format(fecha.toDate());
-                String formattedTime = DateFormat('HH:mm').format(fecha.toDate());
+                String formattedTime =
+                    DateFormat('HH:mm').format(fecha.toDate());
 
                 return Container(
                   margin: EdgeInsets.all(8),
@@ -55,7 +57,8 @@ class AsmaHistoryScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Fecha: $formattedDate',
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 8),
                       Text(

@@ -50,7 +50,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const EntregaMedicamentosScreen()),
+          MaterialPageRoute(
+              builder: (context) => const EntregaMedicamentosScreen()),
         );
         break;
       case 1:
@@ -62,7 +63,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const EntregaAlimentosScreen()),
+          MaterialPageRoute(
+              builder: (context) => const EntregaAlimentosScreen()),
         );
         break;
       case 3:
@@ -105,7 +107,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       appBar: AppBar(
         title: const Text('PillSend'),
         centerTitle: true,
-        backgroundColor: const Color(0xFF3F87A5),
+        backgroundColor: Color.fromARGB(255, 30, 162, 236),
       ),
       body: Center(
         child: GridView.count(
@@ -115,11 +117,17 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildMenuButton(context, Icons.medication, const Color(0xFFDBA8A8), 0, 'Medicamentos', 0.8),
-            _buildMenuButton(context, Icons.account_circle, const Color(0xFFEFC678), 1, 'Perfil', 0.8),
-            _buildMenuButton(context, Icons.local_dining, const Color(0xFF7DD094), 2, 'Alimentos', 0.8),
-            _buildMenuButton(context, Icons.calendar_today, const Color(0xFF40CED7), 3, 'Controles', 0.8),
-            _buildMenuButton(context, Icons.settings, const Color(0xFFD1E6E9), 4, 'Configuración', 0.8, doubleWidth: true),
+            _buildMenuButton(context, Icons.medication, const Color(0xFFDBA8A8),
+                0, 'Medicamentos', 0.8),
+            _buildMenuButton(context, Icons.account_circle,
+                const Color(0xFFEFC678), 1, 'Perfil', 0.8),
+            _buildMenuButton(context, Icons.local_dining,
+                const Color(0xFF7DD094), 2, 'Alimentos', 0.8),
+            _buildMenuButton(context, Icons.calendar_today,
+                const Color(0xFF40CED7), 3, 'Controles', 0.8),
+            _buildMenuButton(context, Icons.settings, const Color(0xFFD1E6E9),
+                4, 'Configuración', 0.8,
+                doubleWidth: true),
           ],
         ),
       ),

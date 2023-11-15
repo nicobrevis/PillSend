@@ -29,6 +29,39 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
     setState(() {});
   }
 
+  void _deleteReservation() async {
+    try {
+      String userUid = FirebaseAuth.instance.currentUser!.uid;
+      // Crea una referencia al documento en la colección 'reservas' con el userUid
+      DocumentReference reservationRef =
+          FirebaseFirestore.instance.collection('reservas').doc(userUid);
+
+      // Elimina el documento
+      await reservationRef.delete();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => EntregaMedicamentosScreen(),
+        ),
+      );
+      // Muestra un mensaje de éxito
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Reserva eliminada con éxito'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      // Muestra un mensaje de error si algo sale mal
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error al eliminar la reserva'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   // Esta función se llama cuando se presiona el botón 'Reservar' en CalendarDialog
   void _handleReservation(Timestamp dateTimeStamp) async {
     // Actualiza la fecha y hora en el estado y en Firestore
@@ -92,7 +125,7 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
         appBar: AppBar(
           title: const Text('PillSend'),
           centerTitle: true,
-          backgroundColor: Color(0xFF3F87A5),
+          backgroundColor: Color.fromARGB(255, 30, 162, 236),
         ),
         body: Container(
           padding: const EdgeInsets.all(16),
@@ -115,24 +148,40 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
                       _buildDateBox('Fecha de entrega: 01/01/2023'),
                       _buildDateBox('Fecha de próxima entrega: 02/01/2023'),
                       // Fecha de reserva
-                      if (fechaReserva.isNotEmpty)
-                        _buildDateBox(fechaReserva),
+                      if (fechaReserva.isNotEmpty) _buildDateBox(fechaReserva),
                       Padding(
                         padding: const EdgeInsets.all(16),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.green,
-                            onPrimary: Colors.white,
-                          ),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CalendarDialog(
-                                onReserve: _handleReservation,
+                        child: Row(
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                onPrimary: Colors.white,
                               ),
-                            );
-                          },
-                          child: const Text('Reservar hora'),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => CalendarDialog(
+                                    onReserve: _handleReservation,
+                                  ),
+                                );
+                              },
+                              child: const Text('Reservar hora'),
+                            ),
+                            const SizedBox(width: 16),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                                onPrimary: Colors.white,
+                              ),
+                              onPressed: () {
+                                // Lógica para eliminar la hora
+
+                                _showDeleteConfirmationDialog();
+                              },
+                              child: const Text('Eliminar hora'),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -195,5 +244,30 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
       ),
     );
   }
-}
 
+  // Método para mostrar el diálogo de confirmación de eliminación
+  void _showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Eliminar hora'),
+        content: const Text('¿Estás seguro de que deseas eliminar la hora?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cerrar el diálogo
+            },
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              _deleteReservation();
+              Navigator.of(context).pop(); // Cerrar el diálogo
+            },
+            child: const Text('Eliminar'),
+          ),
+        ],
+      ),
+    );
+  }
+}
