@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatelessWidget {
   Future<String?> _getUserUid() async {
@@ -72,6 +73,12 @@ class ProfileScreen extends StatelessWidget {
       return Text('Usuario no encontrado');
     }
 
+    // Formatea la fecha de nacimiento
+    DateTime fechaNacimiento =
+        (userData['fechaNacimiento'] as Timestamp).toDate();
+    String formattedFechaNacimiento =
+        DateFormat('dd/MM/yyyy').format(fechaNacimiento);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -81,8 +88,7 @@ class ProfileScreen extends StatelessWidget {
             height: 150,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors
-                  .grey, // Puedes cambiar el color de fondo según tus preferencias
+              color: Colors.grey,
             ),
             child: Icon(
               Icons.account_circle,
@@ -102,15 +108,11 @@ class ProfileScreen extends StatelessWidget {
           SizedBox(height: 20),
           InfoTile(
             icon: Icons.cake,
-            text: 'Fecha de Nacimiento: ${userData['fechaNacimiento']}',
+            text: 'Fecha de Nacimiento: $formattedFechaNacimiento',
           ),
           InfoTile(
             icon: Icons.star,
             text: 'Edad: ${userData['edad']} años',
-          ),
-          InfoTile(
-            icon: Icons.email,
-            text: 'Correo: ${userData['email']}',
           ),
           InfoTile(
             icon: Icons.location_city,

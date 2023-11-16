@@ -3,6 +3,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'CalendarDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
 
 import 'menu.dart';
 
@@ -69,7 +71,7 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
       _selectedDate = dateTimeStamp.toDate();
       _selectedTime = TimeOfDay.fromDateTime(_selectedDate);
       fechaReserva =
-          'Fecha de reserva de medicamentos: ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year} ${_selectedTime!.hour}:${_selectedTime!.minute}';
+          ' ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year} ${_selectedTime!.hour}:${_selectedTime!.minute}';
     });
 
     // Muestra la alerta (SnackBar) después de reservar la hora
@@ -110,120 +112,182 @@ class _EntregaMedicamentosScreenState extends State<EntregaMedicamentosScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Bloquear el retroceso si el usuario ha iniciado sesión
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Menu()),
-        );
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('PillSend'),
-          centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 30, 162, 236),
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Box con sombra y fondo azul para el título
-              _buildBlueBox('Entrega de Medicamentos', 24, FontWeight.bold),
-              const SizedBox(height: 16),
-              // Expanded para ocupar el espacio restante
-              Expanded(
-                child: Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildDateBox('Fecha de entrega: 01/01/2023'),
-                      _buildDateBox('Fecha de próxima entrega: 02/01/2023'),
-                      // Fecha de reserva
-                      if (fechaReserva.isNotEmpty) _buildDateBox(fechaReserva),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                                onPrimary: Colors.white,
-                              ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => CalendarDialog(
-                                    onReserve: _handleReservation,
-                                  ),
-                                );
-                              },
-                              child: const Text('Reservar hora'),
-                            ),
-                            const SizedBox(width: 16),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
-                                onPrimary: Colors.white,
-                              ),
-                              onPressed: () {
-                                // Lógica para eliminar la hora
+  // ... (Código anterior)
 
-                                _showDeleteConfirmationDialog();
-                              },
-                              child: const Text('Eliminar hora'),
-                            ),
-                          ],
+@override
+Widget build(BuildContext context) {
+  return WillPopScope(
+    onWillPop: () async {
+      // Bloquear el retroceso si el usuario ha iniciado sesión
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Menu()),
+      );
+      return true;
+    },
+    child: Scaffold(
+      appBar: AppBar(
+        title: const Text('PillSend'),
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 30, 162, 236),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Box con sombra y fondo azul para el título
+            _buildBlueBox('Entrega de Medicamentos', 24, FontWeight.bold),
+            const SizedBox(height: 16),
+            // Fecha de entrega
+            _buildDateBox('Fecha de entrega:              01/01/2023'),
+            // Fecha de próxima entrega
+            _buildDateBox('Fecha de próxima entrega: 02/01/2023'),
+            // Fecha de reserva
+            if (fechaReserva.isNotEmpty) _buildDateBox2(fechaReserva),
+            // Botones de Reservar y Eliminar hora
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                      onPrimary: Colors.white,
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CalendarDialog(
+                          onReserve: _handleReservation,
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                    child: const Text('Reservar hora'),
                   ),
-                ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      onPrimary: Colors.white,
+                    ),
+                    onPressed: () {
+                      // Lógica para eliminar la hora
+                      _showDeleteConfirmationDialog();
+                    },
+                    child: const Text('Eliminar hora'),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+// ... (Código posterior)
+
 
   // Método para construir las cajas de fecha
-  Widget _buildDateBox(String text) {
-    return Column(
+  // Método para construir las cajas de fecha con resaltado
+// Método para construir las cajas de fecha con resaltado
+// Método para construir las cajas de fecha con resaltado
+Widget _buildDateBox(String text) {
+  final parts = text.split(':');
+  final dateText = parts[1].trim();
+  final isTime = dateText.contains(':'); // Verificar si es una hora
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 5),
+    child: Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(5),
           child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.all(16),
+            width: double.infinity, // Cubrir horizontalmente la pantalla
+            padding: const EdgeInsets.all(10),
+            color: isTime ? null : Colors.lightBlueAccent, // Fondo celeste solo si no es una hora
             child: Text(
-              text,
-              style: const TextStyle(fontSize: 16),
+              parts[0].trim(), // "Fecha de entrega: "
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: isTime ? Colors.black : Colors.white, // Color blanco solo si no es una hora
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: Container(
+            width: double.infinity, // Cubrir horizontalmente la pantalla
+            padding: const EdgeInsets.all(10),
+
+            child: Text(
+              isTime
+                  ? DateFormat.Hm().format(DateTime.parse(dateText)) // Formatear la hora completa
+                  : dateText,
+              style: TextStyle(fontSize: 20, color: Colors.black),
             ),
           ),
         ),
         const Divider(),
       ],
-    );
-  }
+    ),
+  );
+}
+Widget _buildDateBox2(String text) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 5),
+    child: Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(10),
+            color: Colors.lightBlueAccent,
+            child: Text(
+              'Fecha de reserva de medicamentos',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        const Divider(),
+        Padding(
+          padding: const EdgeInsets.all(5),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
+
 
   // Método para construir cajas con sombra y fondo azul
   Widget _buildBlueBox(String text, double fontSize, FontWeight fontWeight) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.blue,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),

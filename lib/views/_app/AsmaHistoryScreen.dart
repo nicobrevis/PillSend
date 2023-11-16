@@ -29,7 +29,7 @@ class AsmaHistoryScreen extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text(
               'No hay datos en el historial de asma.',
-              style: TextStyle(fontSize: 20), // Tamaño de fuente más grande
+              style: TextStyle(fontSize: 20) // Tamaño de fuente más grande
             );
           } else {
             return ListView.builder(
