@@ -35,16 +35,9 @@ class HealthControlScreen extends StatelessWidget {
 
   Widget buildSectionWithShadow(String title) {
     return Container(
+      transform: Matrix4.translationValues(0, 20, 0),
       decoration: BoxDecoration(
-        color: Colors.blue,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
+        color: Color.fromARGB(255, 207, 233, 255),
       ),
       margin: EdgeInsets.all(8),
       child: Padding(
@@ -54,7 +47,7 @@ class HealthControlScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: const Color.fromARGB(255, 0, 0, 0),
           ),
         ),
       ),
@@ -72,6 +65,7 @@ class HealthControlScreen extends StatelessWidget {
   Widget buildHistoryButton(
       String title, String subtitle, VoidCallback? onTap) {
     return Container(
+      transform: Matrix4.translationValues(0, -16, 0),
       margin: EdgeInsets.all(8),
       child: ElevatedButton(
         onPressed: onTap,
@@ -105,13 +99,13 @@ class HealthControlScreen extends StatelessWidget {
   }
 
   Widget buildControlItem(String title, String subtitle) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle),
-      onTap: () {
-        // Acción para mostrar detalles del control de salud
-        // Puedes navegar a otra pantalla o ejecutar una acción aquí.
-      },
+    return Container(
+      margin: EdgeInsets.all(8),
+      color: Color.fromARGB(255, 207, 233, 255),
+      child: ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+      ),
     );
   }
 }

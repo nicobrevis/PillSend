@@ -152,6 +152,9 @@ class _HomeScreen_auxState extends State<HomeScreen_aux> {
                             builder: (context) => const LoginScreen()));
                       },
                     ),
+                    const SizedBox(
+                      height: 40,
+                    ),
                     //Text("data"),
                   ],
                 ),

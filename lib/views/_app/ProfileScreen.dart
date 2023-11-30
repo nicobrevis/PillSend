@@ -83,17 +83,19 @@ class ProfileScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey,
-            ),
-            child: Icon(
-              Icons.account_circle,
-              size: 100,
-              color: Colors.white,
+          Center(
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey,
+              ),
+              child: Icon(
+                Icons.account_circle,
+                size: 100,
+                color: Colors.white,
+              ),
             ),
           ),
           SizedBox(height: 20),

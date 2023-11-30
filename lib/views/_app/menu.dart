@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'EntregaAlimentosScreen.dart';
 import 'EntregaMedicamentosScreen.dart';
 import 'HealthControlScreen.dart';
+import 'Notificacion.dart';
 import 'ProfileScreen.dart';
 import 'SettingsScreen.dart';
 
@@ -80,22 +81,9 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         );
         break;
       case 5:
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Botón 6'),
-              content: const Text('Acción del botón 6'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Cerrar'),
-                ),
-              ],
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NotificacionesScreen()),
         );
         break;
     }
@@ -111,23 +99,25 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       ),
       body: Center(
         child: GridView.count(
-          crossAxisCount:2,
+          crossAxisCount: 2,
           padding: const EdgeInsets.all(16),
           childAspectRatio: 1,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
           children: [
-            _buildMenuButton(context, Icons.medication, Color.fromARGB(255, 252, 125, 125),
-                0, 'Medicamentos', 0.8),
+            _buildMenuButton(context, Icons.medication,
+                Color.fromARGB(255, 252, 125, 125), 0, 'Medicamentos', 0.8),
             _buildMenuButton(context, Icons.account_circle,
                 const Color(0xFFEFC678), 1, 'Perfil', 0.8),
             _buildMenuButton(context, Icons.local_dining,
                 const Color(0xFF7DD094), 2, 'Alimentos', 0.8),
             _buildMenuButton(context, Icons.calendar_today,
                 const Color(0xFF40CED7), 3, 'Controles', 0.8),
-            _buildMenuButton(context, Icons.settings, Color.fromARGB(255, 178, 227, 235),
-                4, 'Configuración', 0.8,
+            _buildMenuButton(context, Icons.settings,
+                Color.fromARGB(255, 178, 227, 235), 4, 'Configuración', 0.8,
                 doubleWidth: true),
+            _buildMenuButton(context, Icons.notifications,
+                Color.fromARGB(255, 252, 125, 125), 5, 'Notificaciones', 0.8),
           ],
         ),
       ),
